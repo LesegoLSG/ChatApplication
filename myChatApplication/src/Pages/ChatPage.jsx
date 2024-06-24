@@ -11,6 +11,7 @@ import {
   serverTimestamp,
 } from "firebase/firestore";
 import { useCollection } from "react-firebase-hooks/firestore";
+import FlipMove from "react-flip-move";
 // import { data } from "autoprefixer";
 
 const ChatPage = () => {
@@ -42,25 +43,32 @@ const ChatPage = () => {
   };
 
   return (
-    <section>
+    <section className="">
       <Header />
 
       {/* Body for chatpage */}
-      <div className="max-w-2xl mx-auto mt-6">
+      <div className="max-w-2xl mx-auto mt-2 bg-gray-200 shadow-lg rounded-lg">
         {/* messages */}
         <div className="p-5 ">
-          {messages?.docs?.map((message) => (
-            <Message
-              key={message.id}
-              sender={message.data().sender}
-              message={message.data().message}
-              time={message?.data()?.time?.toDate().toLocaleString()}
-            />
-          ))}
+          <FlipMove>
+            {messages?.docs?.map((message) => (
+              <Message
+                key={message.id}
+                sender={message.data().sender}
+                message={message.data().message}
+                time={message
+                  ?.data()
+                  ?.time?.toDate()
+                  .toLocaleString("en-ZA", { timeZone: "Africa/Johannesburg" })}
+              />
+            ))}
+          </FlipMove>
+
           <div ref={lastMessage} className="mb-12" />
         </div>
         {/* Input */}
-        <div className="fixed bottom-2 w-96 flex justify-between items-center space-x-2 ">
+        <div className="fixed  bottom-2  w-96 flex justify-between items-center space-x-2 ">
+          {/* <div className="w-full bg-blue-600"> */}
           <input
             type="text"
             placeholder="Send Me A Text"
@@ -75,6 +83,7 @@ const ChatPage = () => {
           >
             Send
           </button>
+          {/* </div> */}
         </div>
       </div>
     </section>
