@@ -1,0 +1,28 @@
+import React from "react";
+import LoginPage from "./LoginPage";
+import ChatPage from "./ChatPage";
+import { auth } from "../Services/firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
+
+const MainPage = () => {
+  const [user, loading, error] = useAuthState(auth);
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    console.error("Authentication error:", error);
+    return <p>Error: {error.message}</p>;
+  }
+
+  return (
+    <div>
+      {console.log("User: ", user)}
+      {user == null ? <LoginPage /> : <ChatPage />}
+      {/* {console.log("User: ", user)} */}
+    </div>
+  );
+};
+
+export default MainPage;
