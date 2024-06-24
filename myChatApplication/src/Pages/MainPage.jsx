@@ -3,12 +3,13 @@ import LoginPage from "./LoginPage";
 import ChatPage from "./ChatPage";
 import { auth } from "../Services/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
+import LoaderModal from "../Reusable/LoaderModal";
 
 const MainPage = () => {
   const [user, loading, error] = useAuthState(auth);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <LoaderModal />;
   }
 
   if (error) {
