@@ -8,10 +8,12 @@ import HeaderWelcoming from "../Components/HeaderWelcoming";
 import { motion } from "framer-motion";
 
 const LoginPage = () => {
+  // Function to handle user sign-in with Google
   const signInUser = () => {
     signInWithPopup(auth, provider).catch((error) => alert(error.message));
   };
 
+  // Options for the Lottie animation
   const defaultOptions = {
     loop: true,
     autoplay: true,

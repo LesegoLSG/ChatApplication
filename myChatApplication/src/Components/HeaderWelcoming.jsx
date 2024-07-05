@@ -1,5 +1,7 @@
 import React from "react";
 import Logo1 from "../assets/Logo1.png";
+
+//Header for LoginPage
 const HeaderWelcoming = () => {
   return (
     <header className="w-full h-10 flex justify-center items-center px-16 py-2 sticky shadow-lg top-0 bg-[#CDF5FD] z-10">

@@ -6,34 +6,40 @@ import ConfirmationBox from "../Reusable/ConfirmationBox";
 import Logo1 from "../assets/Logo1.png";
 
 const Header = () => {
-  const [user] = useAuthState(auth);
+  const [user] = useAuthState(auth); //Get the current authenticated user
 
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [showConfirmBox, setShowConfirmBox] = useState(false);
-  const [defaultProfilePic, setDefaultProfilePic] = useState(null);
-  const dropdownRef = useRef(null);
+  const [dropdownOpen, setDropdownOpen] = useState(false); //State to track dropdown visibility
+  const [showConfirmBox, setShowConfirmBox] = useState(false); //State to track confirmation box visibility
+  const [defaultProfilePic, setDefaultProfilePic] = useState(null); //State to store default profile picture
+  const dropdownRef = useRef(null); //Reference for the dropdown menu
 
+  // Toggle the dropdown menu
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
   };
 
+  // Sign out the user
   const signOut = () => {
     auth.signOut();
   };
 
+  // Handle sign-out button click
   const handleSignOutClick = () => {
     setShowConfirmBox(true);
   };
 
+  // Confirm sign-out
   const handleConfirmSignOut = () => {
     signOut();
     setShowConfirmBox(false);
   };
 
+  // Cancel sign-out
   const handleCancelSignOut = () => {
     setShowConfirmBox(false);
   };
 
+  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -52,7 +58,7 @@ const Header = () => {
     };
   }, [dropdownOpen]);
 
-  //UseEffect to set a default picture if user?.photoURL fails
+  // Set a default profile picture if user's photoURL is unavailable
   useEffect(() => {
     if (user) {
       const canvas = document.createElement("canvas");
