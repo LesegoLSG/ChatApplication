@@ -3,12 +3,14 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../Services/firebase";
 import { FaSignOutAlt } from "react-icons/fa";
 import ConfirmationBox from "../Reusable/ConfirmationBox";
+import Logo1 from "../assets/Logo1.png";
 
 const Header = () => {
   const [user] = useAuthState(auth);
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [showConfirmBox, setShowConfirmBox] = useState(false);
+  const [defaultProfilePic, setDefaultProfilePic] = useState(null);
   const dropdownRef = useRef(null);
 
   const toggleDropdown = () => {
@@ -50,19 +52,47 @@ const Header = () => {
     };
   }, [dropdownOpen]);
 
+  //UseEffect to set a default picture if user?.photoURL fails
+  useEffect(() => {
+    if (user) {
+      const canvas = document.createElement("canvas");
+      const context = canvas.getContext("2d");
+      canvas.width = 100;
+      canvas.height = 100;
+
+      // Background color
+      context.fillStyle = "#000000";
+      context.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Text
+      context.fillStyle = "#FFFFFF";
+      context.font = "50px Arial";
+      context.textAlign = "center";
+      context.textBaseline = "middle";
+      const firstLetter = user.displayName ? user.displayName[0] : "?";
+      context.fillText(firstLetter, canvas.width / 2, canvas.height / 2);
+
+      setDefaultProfilePic(canvas.toDataURL());
+    }
+  }, [user]);
+
   return (
-    <header className="w-full h-16 flex justify-between items-center px-16 py-2 sticky shadow-lg top-0 bg-white z-10">
+    <header className="w-full h-16 flex justify-between items-center px-8 py-2 sticky shadow-lg top-0 bg-white z-10">
       {/* Logo */}
-      <div>
-        <h1 className="text-lg font-bold">Less-Ego</h1>
+      <div className="w-28 ">
+        <img src={Logo1} alt="Logo" className="w-full h-full" />
       </div>
       {/* Logged-in User Image */}
       <div className="relative">
         <img
           onClick={toggleDropdown}
-          src={user?.photoURL}
+          src={user?.photoURL || defaultProfilePic}
           alt="GoogleProfilePic"
           className="w-10 h-10 rounded-full cursor-pointer"
+          onError={(e) => {
+            e.target.onerror = null; // Prevents infinite loop if default image fails
+            e.target.src = defaultProfilePic; // Fallback image
+          }}
         />
         {dropdownOpen && (
           <div
