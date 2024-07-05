@@ -62,7 +62,7 @@ npm run dev
 
 ## Live demo
 ```
-https:// to be provided
+https://chatapplication-98e8b.web.app
 ```
 
 ## Technologies Used
