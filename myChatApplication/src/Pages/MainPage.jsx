@@ -21,7 +21,6 @@ const MainPage = () => {
     <div>
       {console.log("User: ", user)}
       {user == null ? <LoginPage /> : <ChatPage />}
-      {/* {console.log("User: ", user)} */}
     </div>
   );
 };
